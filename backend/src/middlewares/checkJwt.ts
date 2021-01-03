@@ -7,6 +7,8 @@ export default {
   checkJwt(request: Request, response: Response, next: NextFunction) {
     const jwttoken = request.headers["authorization"] as string;
 
+    if(jwttoken === undefined) return response.status(401).send({ message: "Not found Token"})
+
     const token = jwttoken.split(" ")[1];
 
     if(!token) return response.status(401).send({ message: "No token provided"})
