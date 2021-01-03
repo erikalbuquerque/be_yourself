@@ -91,7 +91,7 @@ export default {
 
     await imageRepository.save(image);
 
-    return response.status(200).json(user);
+    return response.status(201).json(user);
   },
   // OKAY
   async update(request: Request, response: Response) {

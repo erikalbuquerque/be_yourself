@@ -96,7 +96,7 @@ export default {
 
     await recipientRepository.save(messageRecipient);
 
-    return response.status(200).json({ message, messageRecipient });
+    return response.status(201).json({ message, messageRecipient });
   },
   // OKAY
   async update(request: Request, response: Response) {

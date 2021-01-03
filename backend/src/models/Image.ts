@@ -13,20 +13,20 @@ import User from "./User";
 @Entity("images")
 export default class Image {
   @PrimaryGeneratedColumn("increment")
-  id?: number;
+  id: number;
 
   @Column()
-  path?: string;
+  path: string;
 
   @Column()
-  user_id?: number;
+  user_id: number;
 
   @OneToOne(() => User, (user) => user.avatar)
   @JoinColumn({ name: "user_id" })
-  user?: User;
+  user: User;
 
   @Column()
-  group_id?: number;
+  group_id: number;
 
   @OneToOne(
     () => Group,
@@ -35,11 +35,11 @@ export default class Image {
     }
   )
   @JoinColumn({ name: "group_id" })
-  group?: Group;
+  group: Group;
 
   @CreateDateColumn()
-  created_at?: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at?: Date;
+  updated_at: Date;
 }

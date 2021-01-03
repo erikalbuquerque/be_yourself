@@ -7,6 +7,7 @@ import groups_view from "../views/groups_view";
 
 import Group from "../models/Group";
 import Image from "../models/Image";
+import User from "../models/User";
 
 interface IGroup {
   name: string;
@@ -20,6 +21,12 @@ interface IGroupUpdate {
   description?: string;
   avatar?: string;
   background?: string;
+}
+
+interface IDataImages {
+  path?: string;
+  user_id?: number;
+  group_id?: number;
 }
 
 export default {
@@ -42,14 +49,14 @@ export default {
     if (!group)
       return response.status(400).send({ message: "group not found!" });
 
-    return response.status(200).send(groups_view.render(group))
+    return response.status(200).send(groups_view.render(group));
   },
   // OKAY
   async create(request: Request, response: Response) {
     const { name, description } = request.body;
 
     const images = request.files as Express.Multer.File[];
-    // req.files['myImage'][0].filename,
+    // req.files['myImage'][0].filename
 
     const avatar = images[0].filename;
     const background = images[1].filename;
@@ -102,19 +109,13 @@ export default {
     ]);
     await imageRepository.save(imagesGroup);
 
-    return response.status(200).json(group);
+    return response.status(201).json(group);
   },
   // OKAY
   async update(request: Request, response: Response) {
     const { id } = request.params;
 
     const { name, description } = request.body;
-
-    const images = request.files as Express.Multer.File[];
-
-    const avatar = images[0].filename;
-    const background = images[1].filename;
-
     const imageRepository = getRepository(Image);
 
     const currentImages = await imageRepository.find({
@@ -124,11 +125,28 @@ export default {
     if (!currentImages)
       return response.status(400).send({ message: "images not found!" });
 
+    const images = request.files as Express.Multer.File[];
+
+    let pathAvatar = "";
+    let pathBackground = "";
+
+    if(images.length == 0){
+      pathAvatar = currentImages[0].path
+      pathBackground = currentImages[1].path
+    }else{
+      pathAvatar = images[0].filename
+      pathBackground = images[1].filename
+    }
+    
+
+    const avatar = pathAvatar;
+    const background = pathBackground;
+
     const groupRepository = getRepository(Group);
 
-    const group = await groupRepository.findOne({ where: { id } });
+    const groupExist = await groupRepository.findOne({ where: { id } });
 
-    if (!group)
+    if (!groupExist)
       return response.status(400).send({ message: "ground not found!" });
 
     const data: IGroupUpdate = {
@@ -151,22 +169,19 @@ export default {
       return response.status(400).send({ message: error.erros });
     }
 
-    const groupUpdated = groupRepository.merge(group, data);
+    const group = groupRepository.merge(groupExist, data);
 
-    await groupRepository.save(groupUpdated);
+    await groupRepository.save(group);
 
-    // const imgesUpdate = imageRepository.merge(currentImages, [
-    //   {
-    //     group_id: groupUpdated.id,
-    //     path: images[0].filename 
-    //   },
-    //   {
-    //     group_id: groupUpdated.id,
-    //     path: images[1].filename 
-    //   }
-    // ])
+    const dataImages = currentImages.map((image, index) => {
+      return imageRepository.merge(image, {
+        path: images.length === 0 ? currentImages[index].path : images[index].filename,
+        group_id: group.id,
+      });
+    });
+    await imageRepository.save(dataImages)
 
-    return response.status(200).json(groupUpdated);
+    return response.status(200).json(group);
   },
   // OKAY
   async delete(request: Request, response: Response) {
