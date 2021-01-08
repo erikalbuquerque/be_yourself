@@ -1,12 +1,18 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import Login from "../pages/login";
+import { useAuth } from "../context/Auth";
+import { BrowserRouter } from "react-router-dom";
+
+import AuthRoutes from "./auth.routes";
+import AppRoutes from "./app.routes";
 
 function Routes() {
+  const { signed, loading } = useAuth();
+  if (loading) {
+    return <h1>loading...</h1>;
+  }
+
   return (
-    <BrowserRouter>
-      <Route path="/" component={Login} exact/>
-    </BrowserRouter>
+    <BrowserRouter>{signed ? <AppRoutes /> : <AuthRoutes />}</BrowserRouter>
   );
 }
 

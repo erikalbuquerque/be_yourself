@@ -3,9 +3,11 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import api from "../services/api";
 
 interface IAuth {
+  signed: boolean;
+  user: Object | null;
+  loading: boolean;
   signIn(email: string, password: string): Promise<any>;
   signOut(): Promise<any>;
-  user: Object;
 }
 
 const AuthContext = createContext<IAuth>({} as IAuth);
@@ -13,19 +15,25 @@ const AuthContext = createContext<IAuth>({} as IAuth);
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<Object | null>(null);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function loadLocalStorage() {
       const localUser = localStorage.getItem("@Auth:user");
       const localToken = localStorage.getItem("@Auth:token");
-
+      // // simular uma lentidão para mostar o loading.
+      //await new Promise((resolve) => setTimeout(resolve, 1000));
       if (localStorage && localToken) {
         setUser(localUser);
+        api.defaults.headers["Authorization"] = `Bearer ${localToken}`;
       }
+      setLoading(false);
     }
     loadLocalStorage();
   }, []);
 
   async function signIn(email: string, password: string) {
+    setLoading(true);
     const response = await api.post("/auth/login", {
       email,
       password,
@@ -34,20 +42,21 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     setUser(user);
 
-    api.defaults.headers["Authorization"] = `Bear ${token}`;
+    api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
     localStorage.setItem("@Auth:user", JSON.stringify(user));
     localStorage.setItem("@Auth:token", token);
+
+    setLoading(false);
   }
-  async function signOut() {}
+  async function signOut() {
+    localStorage.clear();
+    setUser(null);
+  }
 
   return (
     <AuthContext.Provider
-      value={{
-        user: !!user,
-        signIn,
-        signOut,
-      }}
+      value={{ signed: !!user, user, loading, signIn, signOut }}
     >
       {children}
     </AuthContext.Provider>

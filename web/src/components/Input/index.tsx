@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes, useState } from "react";
 
 import { MdEmail } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FaUser } from "react-icons/fa"
 
 import { Input, Container } from "./styles";
 
@@ -23,11 +24,6 @@ const InputComponent: React.FC<InputProps> = ({
 
   function handleShowPassword() {
     setShowPassword(showPassword ? false : true);
-  }
-
-  function handleInFocus() {
-    setInFocus(inFocus ? false : true);
-    console.log(inFocus);
   }
 
   return (
@@ -56,6 +52,9 @@ const InputComponent: React.FC<InputProps> = ({
         )
       ) : (
         <></>
+      )}
+      {icon === "FaUser" && (
+        <FaUser size={20} color={inFocus ? "#7858F9" : "#969696"} />
       )}
     </Container>
   );

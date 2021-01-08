@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from "react";
 
 import Header from "../../components/Header";
 import Input from "../../components/Input";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import {
   Container,
@@ -19,6 +19,7 @@ import { useAuth } from "../../context/Auth";
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +27,7 @@ const Login: React.FC = () => {
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
     signIn(email, password);
+    history.push("/dashboard");
   }
 
   return (
@@ -33,7 +35,8 @@ const Login: React.FC = () => {
       <Header />
       <Content>
         <Title>Welcome!</Title>
-        <Form onSubmit={(e) => handleLogin(e)}>
+        <Form 
+          onSubmit={(e) => handleLogin(e)}>
           <Input
             type="email"
             name="Email"
