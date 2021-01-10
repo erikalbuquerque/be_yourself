@@ -1,12 +1,11 @@
 import React, { FormEvent, ChangeEvent, useState } from "react";
-
+import * as Yup from "yup";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import {
   Container,
@@ -16,20 +15,19 @@ import {
   AvatarContent,
   Button,
   Back,
-  SpanMessage,
+  AllErrors,
 } from "./styles";
-
-import { useAuth } from "../../context/Auth";
+import Loader from "react-loader-spinner";
+import Alert from "../../components/Alert";
 
 import api from "../../services/api";
+import { useError } from "../../context/Error";
 
 const SignUp: React.FC = () => {
-  const {} = useAuth();
-
-  //const [errors, setErrors] = useState<Array<string>>([""]);
   const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isValid, setIsValid] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const { errorMessage, setErrorMessage } = useError();
+  const [message, setMessage] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -39,26 +37,50 @@ const SignUp: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [avatar, setAvatar] = useState<File>();
 
-  function validationFields() {
-    const data = [
-      [email, "Email"],
-      [nickName, "Nickname"],
-      [password, "Password"],
-      [confirmPassword, "Confirm Password"],
+  async function validationFields() {
+    const data = { email, avatar, nickName, password, confirmPassword };
+
+    const fileSize = 160 * 1024;
+    const supportedFormats = [
+      "image/jpg",
+      "image/jpeg",
+      "image/gif",
+      "image/png",
     ];
 
-    for (let i = 0; i < data.length; i++) {
-      if (!data[i][0]) {
-        setIsValid(false);
-        setShowError(true);
-        setErrorMessage("Fill all fields!");
-        break;
-      } else {
-        setShowError(false);
-        setIsValid(true);
-      }
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required("Email can't be blank."),
+      avatar: Yup.mixed()
+        .required("Avatar can't be blank.")
+        .test(
+          "fileSize",
+          "File too large.",
+          (value) => value && value.size <= fileSize
+        )
+        .test(
+          "fileFormat",
+          "Unsupported Format.",
+          (value) => value && supportedFormats.includes(value.type)
+        ),
+      nickName: Yup.string().required("Nickname can't be blank."),
+      password: Yup.string()
+        .required("Password can't be blank.")
+        .min(8, "Password must be at least 8 characters."),
+      confirmPassword: Yup.string()
+        .required("Confirm password can't be blank.")
+        .min(8, "Confirm password must be at least 8 characters."),
+    });
+
+    try {
+      await schema.validate(data, {
+        abortEarly: false,
+        strict: true,
+      });
+      return true;
+    } catch (error) {
+      setErrorMessage(error.errors);
+      return false;
     }
-    return isValid;
   }
   function handleSelectImage(event: ChangeEvent<HTMLInputElement>) {
     const fileList = event.target.files;
@@ -70,14 +92,21 @@ const SignUp: React.FC = () => {
   }
   async function handleSignUp(e: FormEvent) {
     e.preventDefault();
-    const isValidForm = validationFields();
+    const isValidForm = await validationFields();
 
-    if (isValidForm) {
-      if (password !== confirmPassword) {
-        setShowError(true);
-        setErrorMessage("Passwords don't match.");
-        return;
-      }
+    if (!isValidForm) {
+      setShowError(true);
+      return;
+    }
+
+    //setShowError(false);
+
+    if (password !== confirmPassword) {
+      setShowError(true);
+      setErrorMessage([...errorMessage, "Passwords don't match."]);
+      return;
+    } else {
+      setShowError(false);
 
       const formData = new FormData();
       formData.append("email", email);
@@ -91,13 +120,23 @@ const SignUp: React.FC = () => {
         setLoading(true);
         await api.post("/users", formData);
         //await new Promise((resolve) => setTimeout(resolve, 2000));
+        setMessage("Success!");
+        setShowSuccess(true);
+        setShowError(false);
         setLoading(false);
       } catch (error) {
+        setShowSuccess(false);
         setLoading(false);
-        console.log(error);
+        setErrorMessage(error.response.data.message);
+        setShowError(true);
       }
     }
   }
+  showError &&
+    setTimeout(() => {
+      setShowError(false);
+    }, 6000);
+
   return (
     <Container>
       <Header />
@@ -113,10 +152,15 @@ const SignUp: React.FC = () => {
               setEmail(e.target.value);
             }}
           />
-          {/*Input para o avatar: type=file*/}
           <AvatarContent>
             <input type="file" id="file" onChange={handleSelectImage} />
-            <label htmlFor="file">Choose a image</label>
+            <label htmlFor="file">
+              {avatar ? (
+                <span>{avatar.name}</span>
+              ) : (
+                <span>Choose an image</span>
+              )}
+            </label>
           </AvatarContent>
 
           <Input
@@ -146,9 +190,7 @@ const SignUp: React.FC = () => {
               setConfirmPassword(e.target.value);
             }}
           />
-          {showError && <SpanMessage>{errorMessage}</SpanMessage>}
-
-          <Button>
+          <Button type="submit" disabled={loading}>
             {loading ? (
               <Loader type="ThreeDots" color="#e0e0e0" height={10} width={40} />
             ) : (
@@ -160,6 +202,19 @@ const SignUp: React.FC = () => {
             <Link to="/">back to login</Link>
           </Back>
         </Form>
+        <AllErrors>
+          {showError &&
+            errorMessage.map((error, index) => (
+              <Alert key={index} id={`${index}`} bg="#DD5554" label={error} />
+            ))}
+          {showSuccess && (
+            <Alert
+              bg="#15A012"
+              label={message}
+              onClick={() => setShowSuccess(false)}
+            />
+          )}
+        </AllErrors>
       </Content>
     </Container>
   );

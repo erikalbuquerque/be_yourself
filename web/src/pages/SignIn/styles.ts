@@ -57,6 +57,13 @@ export const Button = styled.button`
     background: #653FFF;
     color: #C8C6C6;
   }
+  :disabled {
+    opacity: 0.5;
+  }
+  :disabled:hover {
+    background: #7858f9;
+    color: #e0e0e0;
+  }
 `;
 export const CreateAcc = styled.div`
   a {
@@ -75,4 +82,8 @@ export const CreateAcc = styled.div`
 export const Span = styled.span`
   color: #e0e0e0;
   font-size: 0.9rem;
+`;
+export const SpanMessage = styled.span`
+  font-size: 1rem;
+  color: #d34242;
 `;

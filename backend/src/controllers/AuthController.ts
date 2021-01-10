@@ -20,7 +20,7 @@ export default {
 
     const user = await userRepository.findOne({ where: { email } });
 
-    if (!user) return response.status(401).send({ messge: "User not found!" });
+    if (!user) return response.status(401).send({ message: "User not found!" });
 
     const data = {
       id: user.id,

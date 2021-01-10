@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  position: relative;
+`;
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,7 +49,7 @@ export const AvatarContent = styled.div`
 
   :focus + label,
   label:hover {
-    background-color: #7858F9;
+    background-color: #7858f9;
     color: #e0e0e0;
   }
 `;
@@ -74,6 +76,13 @@ export const Button = styled.button`
     background: #653fff;
     color: #c8c6c6;
   }
+  :disabled {
+    opacity: 0.5;
+  }
+  :disabled:hover {
+    background: #7858f9;
+    color: #e0e0e0;
+  }
 `;
 export const Back = styled.div`
   display: flex;
@@ -95,8 +104,9 @@ export const Back = styled.div`
     }
   }
 `;
-
-export const SpanMessage = styled.span`
-  font-size: 1rem;
-  color: #d34242;
+export const AllErrors = styled.div`
+  animation: all 0.2s;
+  position: absolute;
+  right: 3.2rem;
+  top: 0.6rem;
 `;

@@ -6,11 +6,7 @@ import AuthRoutes from "./auth.routes";
 import AppRoutes from "./app.routes";
 
 function Routes() {
-  const { signed, loading } = useAuth();
-  if (loading) {
-    return <h1>loading...</h1>;
-  }
-
+  const { signed } = useAuth();
   return (
     <BrowserRouter>{signed ? <AppRoutes /> : <AuthRoutes />}</BrowserRouter>
   );
