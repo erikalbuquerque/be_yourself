@@ -3,6 +3,9 @@ import React from "react";
 import { useAuth } from "../../context/Auth";
 import { useHistory } from "react-router-dom";
 
+import Header from "../../components/Header";
+import { Container } from "./styles";
+
 const Dashboard: React.FC = () => {
   const { signOut } = useAuth();
 
@@ -13,10 +16,12 @@ const Dashboard: React.FC = () => {
     history.push("/");
   }
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={handleSignOut}>log out</button>
-    </div>
+      <Container>
+        <Header />
+
+        
+        {/* <button onClick={handleSignOut}>log out</button> */}
+      </Container>
   );
 };
 
