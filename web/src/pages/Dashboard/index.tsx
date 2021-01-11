@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useAuth } from "../../context/Auth";
 import { useHistory } from "react-router-dom";
 
 import Header from "../../components/Header";
-import { Container } from "./styles";
+import LeftSide from "./LeftSide";
+import Middle from "./Middle";
+import RightSide from "./RightSide";
+
+import { Container, Content } from "./styles";
 
 const Dashboard: React.FC = () => {
   const { signOut } = useAuth();
@@ -16,12 +20,15 @@ const Dashboard: React.FC = () => {
     history.push("/");
   }
   return (
-      <Container>
-        <Header />
-
-        
-        {/* <button onClick={handleSignOut}>log out</button> */}
-      </Container>
+    <Container>
+      <Header path="/dashboard" />
+      {/* <button onClick={handleSignOut}>log out</button> */}
+      <Content>
+        <LeftSide />
+        <Middle />
+        <RightSide />
+      </Content>
+    </Container>
   );
 };
 

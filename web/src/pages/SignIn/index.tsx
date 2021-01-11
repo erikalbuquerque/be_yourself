@@ -75,7 +75,7 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      <Header />
+      <Header path="/"/>
       <Content>
         <Title>Welcome!</Title>
         <Form onSubmit={(e) => handleLogin(e)}>

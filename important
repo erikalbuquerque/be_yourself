@@ -1,0 +1,31 @@
+algo novo: feacture
+corrido bug: bugfix
+
+criar uma nova branch: 
+- git checkout -b feacture/nome_da_branch
+
+commitar na branch:
+- git commit -am "bla bla bla kkkkk"
+
+push na branch
+- git push origin nome_da_branch
+
+trazer código da branch pra main
+- git checkout main
+- git fetch
+- git pull origin main
+
+--------------------------------
+para entar ou sair 
+- localmente: git branch -m novo_nome
+- remoto: git push origin :old_name novo_nome
+
+deletar
+- git push origin feacture/dashboard --delete
+
+-- subir
+- git checkout main
+- git fetch
+- git pull origin main 
+
+ - arquitetura CSS

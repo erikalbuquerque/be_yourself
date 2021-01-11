@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 1.6rem 0.8rem;
+  margin-top: 2rem;
+  margin-left: 2rem;
 `;
 export const Logo = styled.img`
   :hover {

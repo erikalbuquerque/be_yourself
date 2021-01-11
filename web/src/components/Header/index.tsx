@@ -6,10 +6,14 @@ import { Link } from "react-router-dom";
 
 import logo from "../../assets/logo.svg";
 
-const Header: React.FC = () => {
+interface IHeader {
+  path: string;
+}
+
+const Header: React.FC<IHeader> = ({ path }) => {
   return (
     <Container>
-      <Link to="/">
+      <Link to={path}>
         <Logo src={logo} alt="logo"/>
       </Link>
     </Container>

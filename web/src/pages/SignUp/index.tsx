@@ -139,7 +139,7 @@ const SignUp: React.FC = () => {
 
   return (
     <Container>
-      <Header />
+      <Header path="/"/>
       <Content>
         <Title>Create your account</Title>
         <Form onSubmit={(e) => handleSignUp(e)}>
