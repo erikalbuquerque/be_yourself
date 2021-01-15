@@ -12,21 +12,23 @@ export const Content = styled.div`
   img {
     object-fit: cover;
   }
-
-
-
+  grid-area: leftSide;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export const LSRecents = styled.div`
   border-radius: 1.25rem;
-  max-width: 32.5rem;
-  min-width: 18rem;
+  min-width: 17rem;
+  height: 23rem;
 
   background: rgba(196, 196, 196, 0.04);
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 
   position: relative;
 `;
@@ -37,11 +39,13 @@ export const LSSearchBox = styled.div<ILSSearchBox>`
   border-radius: 1.25rem;
   border: 2px solid transparent;
 
-  padding: 0.75rem 0.5rem;
+  padding: 0.4rem 0.5rem;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: absolute;
+  top: -0.5rem;
 
   :focus-within {
     border: 2px solid #7858f9;
@@ -65,12 +69,14 @@ export const LSInput = styled.input`
 export const LSTitle = styled.h1`
   color: #adadb8;
   font-weight: bold;
-  font-size: 1.125rem;
+  font-size: 1rem;
 
-  margin: 1rem 0rem;
+  margin: 0.7rem 0rem;
+  margin-top: 2.5rem;
 `;
 export const LSRecentList = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -78,11 +84,11 @@ export const LSListItem = styled.div`
   cursor: pointer;
 
   transition: background 0.2s;
-  background: rgba(70, 70, 73, 0.5);
+  background: rgb(41, 41, 46) none repeat scroll 0% 0%;
 
-  padding: 0.5rem 0.5rem;
-  border-radius: 1rem;
-  margin: 0.19rem 0.4rem;
+  padding: 0.4rem;
+  border-radius: 1.25rem;
+  margin: 0.1rem 0.5rem;
 
   display: flex;
   flex-direction: row;
@@ -90,13 +96,14 @@ export const LSListItem = styled.div`
   justify-content: space-between;
 
   :hover {
-    background: rgba(48, 48, 52, 0.5);
+    background: rgb(32, 32, 36) ;
   }
 `;
 export const LSImg = styled.img`
   width: 2.8125rem;
   height: 2.8125rem;
   margin-right: 0.4rem;
+  margin-left: 0.1rem;
   border-radius: 50%;
 `;
 export const LSTexts = styled.div`
@@ -117,10 +124,12 @@ export const LSOptions = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+
+  margin-right: 0.5rem;
   flex: 1 1 30%;
 `;
 export const LSMoreOptions = styled.img`
-  width: 1.1rem;
+  width: 1.2rem;
   height: 0.3rem;
   margin-bottom: 0.5rem;
 
@@ -144,7 +153,7 @@ export const LSTime = styled.span`
   color: #5b5b5b;
 `;
 export const LSMore = styled.img`
-  margin: 0.6rem;
+  margin: 0.5rem;
   cursor: pointer;
   :hover {
     opacity: 0.8;
@@ -152,8 +161,8 @@ export const LSMore = styled.img`
 `;
 export const LSGroupInfo = styled.div`
   margin-top: 1rem;
-  width: 17.688rem;
-  height: 134px;
+  width: 15rem;
+  height: 8.375rem;
   border-radius: 1.25rem;
   padding: 1rem;
 
@@ -161,7 +170,6 @@ export const LSGroupInfo = styled.div`
 
   display: flex;
   flex-direction: column;
-
 `;
 export const LSGHeader = styled.div`
   display: flex;
@@ -188,19 +196,17 @@ export const LSGMore = styled.img`
   cursor: pointer;
 `;
 export const LSGBody = styled.div`
-  display: flex; 
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   margin-top: 1.5rem;
-
 `;
 export const LSGUserList = styled.div`
   display: flex;
   flex-direction: row;
 
   position: relative;
-
 `;
 export const LSGUserItem = styled.div`
   img {

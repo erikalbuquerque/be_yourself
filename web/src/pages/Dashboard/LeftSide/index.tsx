@@ -53,24 +53,22 @@ const LeftSide: React.FC = () => {
 
         <LSTitle>Recents chats</LSTitle>
         <LSRecentList>
-          {[1, 2, 3, 4].map((item) => (
-            <LSListItem key={item}>
-              <LSImg src="https://i.pinimg.com/originals/b0/48/d3/b048d3b08bcbd8d49ec26754289d665c.jpg" />
-              <LSTexts>
-                <LSName color="#9E472B">nonsense</LSName>
-                <LSRecentMessage>carai de asa</LSRecentMessage>
-              </LSTexts>
+          <LSListItem >
+            <LSImg src="https://i.pinimg.com/originals/b0/48/d3/b048d3b08bcbd8d49ec26754289d665c.jpg" />
+            <LSTexts>
+              <LSName color="#9E472B">nonsense</LSName>
+              <LSRecentMessage>carai de asa</LSRecentMessage>
+            </LSTexts>
 
-              <LSOptions>
-                <LSMoreOptions src={iconDots} />
-                {isMessage ? (
-                  <LSMessageCount>7</LSMessageCount>
-                ) : (
-                  <LSTime>04 min</LSTime>
-                )}
-              </LSOptions>
-            </LSListItem>
-          ))}
+            <LSOptions>
+              <LSMoreOptions src={iconDots} />
+              {isMessage ? (
+                <LSMessageCount>7</LSMessageCount>
+              ) : (
+                <LSTime>04 min</LSTime>
+              )}
+            </LSOptions>
+          </LSListItem>
         </LSRecentList>
         <LSMore src={iconLoading} />
       </LSRecents>

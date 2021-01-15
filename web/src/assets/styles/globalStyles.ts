@@ -9,6 +9,7 @@ const globalStyles = createGlobalStyle`
     }
     body {
         background: #1F1F23;
+        /* background: rgb(18, 18, 20) none repeat scroll 0% 0%; */
     }
 `;
 

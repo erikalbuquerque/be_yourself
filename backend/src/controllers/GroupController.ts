@@ -32,11 +32,19 @@ interface IDataImages {
 export default {
   // OKAY
   async index(request: Request, response: Response) {
+    const query = request.query;
+    const take: number = Number(query.take) || 3;
+    const skip: number = Number(query.skip) || 0;
+
     const groupRepository = getRepository(Group);
 
-    const groups = await groupRepository.find();
-
-    return response.status(200).send(groups_view.renderMany(groups));
+    const [groups, total] = await groupRepository.findAndCount({
+      take: take,
+      skip: skip,
+    });
+    return response
+      .status(200)
+      .json({ groups: groups_view.renderMany(groups), total });
   },
   // OKAY
   async show(request: Request, response: Response) {
@@ -130,14 +138,13 @@ export default {
     let pathAvatar = "";
     let pathBackground = "";
 
-    if(images.length == 0){
-      pathAvatar = currentImages[0].path
-      pathBackground = currentImages[1].path
-    }else{
-      pathAvatar = images[0].filename
-      pathBackground = images[1].filename
+    if (images.length == 0) {
+      pathAvatar = currentImages[0].path;
+      pathBackground = currentImages[1].path;
+    } else {
+      pathAvatar = images[0].filename;
+      pathBackground = images[1].filename;
     }
-    
 
     const avatar = pathAvatar;
     const background = pathBackground;
@@ -175,11 +182,14 @@ export default {
 
     const dataImages = currentImages.map((image, index) => {
       return imageRepository.merge(image, {
-        path: images.length === 0 ? currentImages[index].path : images[index].filename,
+        path:
+          images.length === 0
+            ? currentImages[index].path
+            : images[index].filename,
         group_id: group.id,
       });
     });
-    await imageRepository.save(dataImages)
+    await imageRepository.save(dataImages);
 
     return response.status(200).json(group);
   },

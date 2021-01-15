@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Content,
@@ -10,34 +10,47 @@ import {
   MMessages,
   MItem,
   MUserName,
+  MTwoDots,
   MUserMessage,
   MFooter,
   MInput,
-  MEmoji,
+  MEmoji
 } from "./styles";
 
 import iconBack from "../../../assets/back.svg";
 import iconInfo from "../../../assets/info.svg";
+import iconEmoji from "../../../assets/emoji.svg";
+
+import api from "../../../services/api";
 
 const Middle: React.FC = () => {
+  const [isFocus, setIsFocus] = useState(false);
   return (
     <Content>
       <MHeader>
         <MBack src={iconBack} />
-        <MTitle>Test test</MTitle>
+        <MTitle>Master</MTitle>
         <MInfo src={iconInfo} />
       </MHeader>
       <MBody>
         <MMessages>
           <MItem>
-            <MUserName>i am bot</MUserName>
-            <MUserMessage>whatever</MUserMessage>
+            <MUserName color="#ff0">iAmBot</MUserName>
+            <MTwoDots>:</MTwoDots>
+            <MUserMessage>
+              whatever KKKKassakddd dk alsdlasj dkajskdja lsjdl kajskdjasldjklas
+              ajdjkdajkdajjk
+            </MUserMessage>
           </MItem>
         </MMessages>
       </MBody>
-      <MFooter>
-        <MInput />
-        <MEmoji>emoji</MEmoji>
+      <MFooter focus={isFocus}>
+        <MInput
+          placeholder="Send a message"
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+        />
+        <MEmoji src={iconEmoji} />
       </MFooter>
     </Content>
   );

@@ -3,9 +3,17 @@ import { useHistory } from "react-router-dom";
 
 import api from "../services/api";
 
+interface IUser {
+  id: number | null;
+  name: string | null;
+  email: string | null;
+  avatar: string | null;
+  updated_at: Date | null;
+}
+
 interface IAuth {
   signed: boolean;
-  user: Object | null;
+  user: IUser | null;
   loading: boolean;
   signIn(email: string, password: string): Promise<any>;
   signOut(): Promise<any>;
@@ -14,13 +22,13 @@ interface IAuth {
 const AuthContext = createContext<IAuth>({} as IAuth);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<Object | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadLocalStorage() {
-      const localUser = localStorage.getItem("@Auth:user");
+      const localUser: IUser = JSON.parse(localStorage.getItem("@Auth:user") || '{}');
       const localToken = localStorage.getItem("@Auth:token");
       // // simular uma lentidão para mostar o loading.
       //await new Promise((resolve) => setTimeout(resolve, 1000));

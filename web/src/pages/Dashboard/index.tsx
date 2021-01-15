@@ -11,18 +11,9 @@ import RightSide from "./RightSide";
 import { Container, Content } from "./styles";
 
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
-
-  const history = useHistory();
-
-  function handleSignOut() {
-    signOut();
-    history.push("/");
-  }
   return (
     <Container>
       <Header path="/dashboard" />
-      {/* <button onClick={handleSignOut}>log out</button> */}
       <Content>
         <LeftSide />
         <Middle />

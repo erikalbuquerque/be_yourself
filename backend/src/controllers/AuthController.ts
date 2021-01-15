@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 
 import { getRepository } from "typeorm";
 
+import user_view from "../views/users_view";
+
 import User from "../models/User";
 
 import config from "../config/jwtConfig";
@@ -29,12 +31,8 @@ export default {
       password: user.password,
     };
 
-    const token = jwt.sign(
-        data, 
-        config.jwtSecret, 
-        { expiresIn: "1d" }
-    );
+    const token = jwt.sign(data, config.jwtSecret, { expiresIn: "1d" });
 
-    return response.status(201).json({ user, token });
+    return response.status(201).json({ user: user_view.render(user), token });
   },
 };

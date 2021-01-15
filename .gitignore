@@ -3,3 +3,4 @@ yarn.lock
 
 backend/src/database/database.sqlite
 backend/uploads
+important.txt
