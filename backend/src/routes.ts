@@ -6,8 +6,6 @@ import multerConfig from "./config/multer";
 
 import authController from "./controllers/AuthController";
 
-import socketController from "./controllers/SocketController";
-
 import userController from "./controllers/UserController";
 import messageController from "./controllers/MessageController";
 import groupController from "./controllers/GroupController";
@@ -74,8 +72,5 @@ routes.put(
   groupController.update
 );
 routes.delete("/groups/:id", middlewareJwt.checkJwt, groupController.delete);
-
-// "/dashboard"
-routes.get("/dashboard", middlewareJwt.checkJwt, socketController.index);
 
 export default routes;

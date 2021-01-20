@@ -28,10 +28,22 @@ export const MHeader = styled.div`
   justify-content: space-between;
   flex: 1 1 10%;
 `;
-export const MBack = styled.img`
+export const MBack = styled.div`
   cursor: pointer;
-  width: 1.313rem;
-  height: 1.313rem;
+  border-radius: 0.4rem;
+  height: 1.563rem;
+  padding: 0.4rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+  transition: background 0.2s;
+  :hover {
+    background: #464649;
+  }
 `;
 export const MTitle = styled.h1`
   color: #e0e0e0;
@@ -115,7 +127,5 @@ export const MInput = styled.input`
   }
 `;
 export const MEmoji = styled.img`
-
   cursor: pointer;
-
 `;

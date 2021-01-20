@@ -9,7 +9,7 @@ import { Input, Container } from "./styles";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type: string;
   name: string;
-  icon: string;
+  icon?: string;
 }
 
 const InputComponent: React.FC<InputProps> = ({

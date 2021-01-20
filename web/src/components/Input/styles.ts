@@ -3,9 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   border-radius: 0.8rem;
   background: #242428;
-  width: 20rem;
-  max-width: 37.1rem;
-  min-width: 10.5rem;
+  width: 100%;
+  max-width: 19.188rem;
   padding: 0.8rem;
 
   margin: 0.6rem 0rem;
@@ -19,19 +18,13 @@ export const Container = styled.div`
   svg {
     cursor: pointer;
   }
-
   :focus-within {
     border: 2px solid #7858f9;
   }
 `;
 export const Input = styled.input`
-  border: none;
-  outline: none;
   background: transparent !important;
-  box-shadow: none;
-  width: 100%;
-  font-size: 1rem;
-
+  
   color: #efeff1;
 
   ::placeholder {

@@ -7,19 +7,22 @@ import path from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
+import { setupWebSocket } from "./webSocket";
+
 import routes from "./routes";
 
 const app = express();
 
 const http = createServer(app);
 
-export const io = new Server(http, {
+const server = new Server(http, {
   cors: {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
+setupWebSocket(server)
 
 app.use(cors());
 app.use(express.json());

@@ -3,9 +3,6 @@ import React, { useState } from "react";
 import {
   Content,
   LSRecents,
-  LSSearchBox,
-  LSSearcIcon,
-  LSInput,
   LSTitle,
   LSRecentList,
   LSListItem,
@@ -31,44 +28,38 @@ import {
   LSGCount,
 } from "./styles";
 
+import SearchInput from "../../../components/SearchInput";
+
 import iconDots from "../../../assets/optionsDots.svg";
 import iconLoading from "../../../assets/loading.svg";
-import iconSearch from "../../../assets/search.svg";
 import iconInfo from "../../../assets/info.svg";
 
 const LeftSide: React.FC = () => {
-  const [isFocus, setIsFocus] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   return (
     <Content>
       <LSRecents>
-        <LSSearchBox focus={isFocus}>
-          <LSSearcIcon src={iconSearch} />
-          <LSInput
-            placeholder="Search"
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-          />
-        </LSSearchBox>
-
+        <SearchInput label="Search" />
         <LSTitle>Recents chats</LSTitle>
         <LSRecentList>
-          <LSListItem >
-            <LSImg src="https://i.pinimg.com/originals/b0/48/d3/b048d3b08bcbd8d49ec26754289d665c.jpg" />
-            <LSTexts>
-              <LSName color="#9E472B">nonsense</LSName>
-              <LSRecentMessage>carai de asa</LSRecentMessage>
-            </LSTexts>
+          {[1, 2, 3, 4].map((item, index) => (
+            <LSListItem key={index}>
+              <LSImg src="https://i.pinimg.com/originals/b0/48/d3/b048d3b08bcbd8d49ec26754289d665c.jpg" />
+              <LSTexts>
+                <LSName color="#9E472B">nonsense</LSName>
+                <LSRecentMessage>carai de asa</LSRecentMessage>
+              </LSTexts>
 
-            <LSOptions>
-              <LSMoreOptions src={iconDots} />
-              {isMessage ? (
-                <LSMessageCount>7</LSMessageCount>
-              ) : (
-                <LSTime>04 min</LSTime>
-              )}
-            </LSOptions>
-          </LSListItem>
+              <LSOptions>
+                <LSMoreOptions src={iconDots} />
+                {isMessage ? (
+                  <LSMessageCount>7</LSMessageCount>
+                ) : (
+                  <LSTime>04 min</LSTime>
+                )}
+              </LSOptions>
+            </LSListItem>
+          ))}
         </LSRecentList>
         <LSMore src={iconLoading} />
       </LSRecents>
