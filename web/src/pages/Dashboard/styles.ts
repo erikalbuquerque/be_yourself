@@ -47,6 +47,15 @@ export const Content = styled.div`
   grid-template-columns: 20rem 32rem 20rem;
   grid-auto-rows: minmax(26rem, auto);
   gap: 4rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 25rem;
+    gap: 2rem;
+    grid-template-areas:
+      "middleMiddle"
+      "leftSide"
+      "rigthSide";
+  }
 `;
 
 /* PANEL */
@@ -55,7 +64,7 @@ export const RSUserPanel = styled(FlexRow)`
   justify-content: space-around;
   align-items: center;
 `;
-export const RSUserNotifications =  styled(FlexRow)`
+export const RSUserNotifications = styled(FlexRow)`
   cursor: pointer;
   height: 1.563rem;
   padding: 0.5rem;
@@ -75,9 +84,9 @@ export const RSNotificationIcon = styled.img`
   width: 1rem;
   height: 1.2rem;
 `;
-export const RSUserOptions =  styled(FlexRow)`
+export const RSUserOptions = styled(FlexRow)`
   position: relative;
-  
+
   align-items: flex-end;
   margin-left: 1rem;
 
@@ -137,7 +146,7 @@ export const RSUserPanelModal = styled.div<IModal>`
 
   z-index: 10;
 `;
-export const RSUserPanelHeader =  styled(FlexRow)`
+export const RSUserPanelHeader = styled(FlexRow)`
   align-items: center;
   justify-content: center;
 `;
@@ -147,11 +156,11 @@ export const RSUserName = styled.span`
   font-size: 1rem;
   font-weight: bold;
 `;
-export const RSUserPanelBody =  styled(FlexColumn)`
+export const RSUserPanelBody = styled(FlexColumn)`
   width: 100%;
   align-items: center;
 `;
-export const RSUserStatus =  styled(FlexRow)`
+export const RSUserStatus = styled(FlexRow)`
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -160,7 +169,7 @@ export const RSUserTitle = styled.span`
   color: #e0e0e0;
   font-size: 0.875rem;
 `;
-export const RSUserButton =  styled(FlexRow)<ISwitch>`
+export const RSUserButton = styled(FlexRow)<ISwitch>`
   cursor: pointer;
   width: 2rem;
   height: 1.08rem;
@@ -187,7 +196,7 @@ export const RSUserButton =  styled(FlexRow)<ISwitch>`
     border-radius: 50%;
   }
 `;
-export const RSUserFooter =  styled(FlexRow)`
+export const RSUserFooter = styled(FlexRow)`
   cursor: pointer;
   align-items: center;
   justify-content: flex-start;
@@ -222,13 +231,12 @@ export const RSNotificationModal = styled(RSUserPanelModal)`
     border-radius: 0.4rem;
     cursor: pointer;
 
-
     :hover {
       background: #464649;
     }
   }
 `;
-export const RSNotificationHeader =  styled(FlexRow)`
+export const RSNotificationHeader = styled(FlexRow)`
   width: 100%;
   padding: 1rem;
 

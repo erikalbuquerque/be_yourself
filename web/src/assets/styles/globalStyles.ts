@@ -20,17 +20,17 @@ const globalStyles = createGlobalStyle`
 
         /* Works on Chrome, Edge, and Safari */
         *::-webkit-scrollbar {
-        width: 12px;
+            width: 12px;
         }
+            scrollbar-color: #464649 transparent;
 
         *::-webkit-scrollbar-track {
-        background: orange;
+            background: transparent;
         }
 
         *::-webkit-scrollbar-thumb {
-            background-color: blue;
-            border-radius: 20px;
-            border: 3px solid orange;
+            background-color: #464649;
+            border-radius: 1.5rem;
         }
         
     }

@@ -44,10 +44,16 @@ import iconNotifications from "../../assets/notifications.svg";
 import iconBack from "../../assets/back.svg";
 import { RiCloseLine } from "react-icons/ri";
 
-import { connect } from "../../services/socketIo";
+import {
+  connect,
+  disconnect,
+  joinInTheChannel,
+  subscribeInTheGlobalChat,
+  stop
+} from "../../services/socketIo";
 
 const Dashboard: React.FC = () => {
-  const { user, signed, signOut  } = useAuth();
+  const { user, signed, signOut } = useAuth();
 
   const history = useHistory();
 
@@ -64,8 +70,19 @@ const Dashboard: React.FC = () => {
 
   function handleSignOut() {
     signOut();
+    disconnect();
     history.push("/");
   }
+
+  useEffect(() => {
+    connect();
+    joinInTheChannel("global", user?.id);
+  }, []);
+
+  useEffect(() => {
+    subscribeInTheGlobalChat((data: {}) => data);
+    return () => stop();
+  }, []);
 
   return (
     <Container>

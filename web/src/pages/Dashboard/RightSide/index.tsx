@@ -40,10 +40,7 @@ import iconCompass from "../../../assets/compass.svg";
 import iconLoading from "../../../assets/loading.svg";
 import { MdAdd } from "react-icons/md";
 
-
 import api from "../../../services/api";
-
-import { subscribeToNewDev } from "../../../services/socketIo";
 
 interface IGroup {
   id: number;

@@ -27,12 +27,23 @@ import {
   sendMessage,
   connect,
   disconnect,
+  stop,
 } from "../../../services/socketIo";
 
-interface IMessage {
-  username: string;
-  text: string;
-}
+const COLORS = [
+  "#e21400",
+  "#91580f",
+  "#f8a700",
+  "#f78b00",
+  "#58dc00",
+  "#287b00",
+  "#a8f07a",
+  "#4ae8c4",
+  "#3b88eb",
+  "#3824aa",
+  "#a700ff",
+  "#d300e7",
+];
 
 const Middle: React.FC = () => {
   const { user } = useAuth();
@@ -42,20 +53,41 @@ const Middle: React.FC = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<object[]>([]);
 
+  const [usernameColor, setUsernameColor] = useState("");
+
   const username = user?.name;
+
+  useEffect(() => {
+    connect();
+    setUsernameColor(randomColor());
+  }, []);
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault();
     // disconnect();
     //socket.emit("message", user?.name, message);
-    sendMessage(message, username);
+
+    sendMessage(message, username, usernameColor);
     setMessage("");
   }
 
+  function randomColor() {
+    const randomIndex = Math.floor(Math.random() * COLORS.length) - 1;
+    return COLORS[randomIndex];
+  }
+
   useEffect(() => {
-    connect();
     saveMessage((data: {}) => setMessages([...messages, data]));
-    return () => disconnect();
+    return () => stop();
+  }, [messages]);
+
+  useEffect(() => {
+    var element = document.querySelector(".ref");
+    if (element) {
+      element.scroll({
+        top: element.scrollHeight
+      });
+    }
   }, [messages]);
 
   return (
@@ -68,10 +100,10 @@ const Middle: React.FC = () => {
         <MInfo src={iconInfo} />
       </MHeader>
       <MBody>
-        <MMessages>
+        <MMessages className="ref">
           {messages.map((item: any, index) => (
             <MItem key={index}>
-              <MUserName color="#ff0">{item.username}</MUserName>
+              <MUserName color={item.color}>{item.username}</MUserName>
               <MTwoDots>:</MTwoDots>
               <MUserMessage>{item.message}</MUserMessage>
             </MItem>

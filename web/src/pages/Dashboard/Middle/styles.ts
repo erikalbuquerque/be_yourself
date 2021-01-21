@@ -19,6 +19,10 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 600px) {
+    margin-top: 0rem;
+  }
 `;
 export const MHeader = styled.div`
   padding: 2rem;
@@ -75,9 +79,18 @@ export const MMessages = styled.div`
   scrollbar-color: #464649 transparent;
 `;
 export const MItem = styled.div`
+  cursor: pointer;
+
   display: flex;
   flex-direction: row;
+
+  padding: .5rem;
+  border-radius: .5rem;
   margin: 0.3rem 0rem;
+
+  :hover {
+    background: rgba(196, 196, 196, 0.1);
+  }
 `;
 export const MUserName = styled.span`
   text-transform: lowercase;
