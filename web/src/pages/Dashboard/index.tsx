@@ -49,8 +49,13 @@ import {
   disconnect,
   joinInTheChannel,
   subscribeInTheGlobalChat,
-  stop
+  stop,
 } from "../../services/socketIo";
+import { InfoChatProvider } from "../../context/InfosChat";
+
+interface IJoin {
+  username: string;
+}
 
 const Dashboard: React.FC = () => {
   const { user, signed, signOut } = useAuth();
@@ -76,106 +81,108 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     connect();
-    joinInTheChannel("global", user?.id);
+    joinInTheChannel(user?.name);
   }, []);
 
   useEffect(() => {
-    subscribeInTheGlobalChat((data: {}) => data);
+    subscribeInTheGlobalChat((data: IJoin) => data);
     return () => stop();
   }, []);
 
   return (
-    <Container>
-      <Header path="/dashboard">
-        <RSUserPanel>
-          <RSUserNotifications
-            onClick={() =>
-              setShowNotifications(showNotifications ? false : true)
-            }
-          >
-            {notifications.length > 0 && (
-              <RSIndicator
-                color="#EC1919"
-                position="absolute"
-                bottom="0.4rem"
-                right="0.7rem"
-              />
-            )}
-            <RSNotificationIcon src={iconNotifications} />
-          </RSUserNotifications>
-          <RSUserOptions
-            onClick={() => setShowOptions(showOptins ? false : true)}
-          >
-            <RSUserAvatar src={user?.avatar || ""} />
-            <RSOnOrOff
-              signed={!checked ? checked : signed}
-              position="absolute"
-              bottom="0.1rem"
-              right="0rem"
-            />
-          </RSUserOptions>
-          <RSNotificationModal show={showNotifications}>
-            <RSNotificationHeader>
-              <div></div>
-              <RSNotificationTitle>Notifications</RSNotificationTitle>
-              <RiCloseLine
-                size={20}
-                color="#e0e0e0"
-                onClick={() => setShowNotifications(false)}
-              />
-            </RSNotificationHeader>
-
-            <RSNotificationBody>
-              <RSNotificationText>Most recent</RSNotificationText>
-              <RSNotificationsList>
-                {notifications.map((item, index) => (
-                  <NotificationItem
-                    key={index}
-                    id={index}
-                    text={item}
-                    time="2 min"
-                  />
-                ))}
-              </RSNotificationsList>
-            </RSNotificationBody>
-          </RSNotificationModal>
-          <RSUserPanelModal show={showOptins}>
-            <RSUserPanelHeader>
-              <RSUserOptions>
-                <RSUserAvatar src={user?.avatar || ""} />
-                <RSOnOrOff
-                  signed={!checked ? checked : signed}
+    <InfoChatProvider>
+      <Container>
+        <Header path="/dashboard">
+          <RSUserPanel>
+            <RSUserNotifications
+              onClick={() =>
+                setShowNotifications(showNotifications ? false : true)
+              }
+            >
+              {notifications.length > 0 && (
+                <RSIndicator
+                  color="#EC1919"
                   position="absolute"
-                  bottom="0.1rem"
-                  right="0rem"
+                  bottom="0.4rem"
+                  right="0.7rem"
                 />
-              </RSUserOptions>
-              <RSUserName>{user?.name}</RSUserName>
-            </RSUserPanelHeader>
-            <RSUserPanelBody>
-              <RSUserStatus>
-                <RSUserTitle>Online</RSUserTitle>
-                <RSUserButton
-                  onClick={() => setChecked(checked ? false : true)}
-                  checked={checked}
-                >
-                  <div></div>
-                </RSUserButton>
-              </RSUserStatus>
-            </RSUserPanelBody>
-            <RSUserFooter onClick={handleSignOut}>
-              <RSIconLogOut src={iconBack} />
-              <RSUserLogOut>log out</RSUserLogOut>
-            </RSUserFooter>
-          </RSUserPanelModal>
-        </RSUserPanel>
-      </Header>
-      <Content>
-        <LeftSide />
-        <Middle />
-        <RightSide />
-      </Content>
-    </Container>
+              )}
+              <RSNotificationIcon src={iconNotifications} />
+            </RSUserNotifications>
+            <RSUserOptions
+              onClick={() => setShowOptions(showOptins ? false : true)}
+            >
+              <RSUserAvatar src={user?.avatar || ""} />
+              <RSOnOrOff
+                signed={!checked ? checked : signed}
+                position="absolute"
+                bottom="0.1rem"
+                right="0rem"
+              />
+            </RSUserOptions>
+            <RSNotificationModal show={showNotifications}>
+              <RSNotificationHeader>
+                <div></div>
+                <RSNotificationTitle>Notifications</RSNotificationTitle>
+                <RiCloseLine
+                  size={20}
+                  color="#e0e0e0"
+                  onClick={() => setShowNotifications(false)}
+                />
+              </RSNotificationHeader>
+
+              <RSNotificationBody>
+                <RSNotificationText>Most recent</RSNotificationText>
+                <RSNotificationsList>
+                  {notifications.map((item, index) => (
+                    <NotificationItem
+                      key={index}
+                      id={index}
+                      text={item}
+                      time="2 min"
+                    />
+                  ))}
+                </RSNotificationsList>
+              </RSNotificationBody>
+            </RSNotificationModal>
+            <RSUserPanelModal show={showOptins}>
+              <RSUserPanelHeader>
+                <RSUserOptions>
+                  <RSUserAvatar src={user?.avatar || ""} />
+                  <RSOnOrOff
+                    signed={!checked ? checked : signed}
+                    position="absolute"
+                    bottom="0.1rem"
+                    right="0rem"
+                  />
+                </RSUserOptions>
+                <RSUserName>{user?.name}</RSUserName>
+              </RSUserPanelHeader>
+              <RSUserPanelBody>
+                <RSUserStatus>
+                  <RSUserTitle>Online</RSUserTitle>
+                  <RSUserButton
+                    onClick={() => setChecked(checked ? false : true)}
+                    checked={checked}
+                  >
+                    <div></div>
+                  </RSUserButton>
+                </RSUserStatus>
+              </RSUserPanelBody>
+              <RSUserFooter onClick={handleSignOut}>
+                <RSIconLogOut src={iconBack} />
+                <RSUserLogOut>log out</RSUserLogOut>
+              </RSUserFooter>
+            </RSUserPanelModal>
+          </RSUserPanel>
+        </Header>
+        <Content>
+          <LeftSide />
+          <Middle />
+          <RightSide />
+        </Content>
+      </Container>
+    </InfoChatProvider>
   );
 };
 

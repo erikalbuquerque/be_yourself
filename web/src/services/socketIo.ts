@@ -7,20 +7,20 @@ const stop = () => {
 };
 
 const subscribeInTheGlobalChat = (subscribeFunction: Function) => {
-  socket.on("join", subscribeFunction);
-  socket.emit(room, userId);
+  socket.on("global", subscribeFunction);
 };
 
-const joinInTheChannel = (room: string, userId: number | null | undefined) => {
-  
+const joinInTheChannel = (username: string | null | undefined) => {
+  socket.emit("join", username);
 };
 
 const sendMessage = (
   message: string,
   username: string | null | undefined,
-  color: string
+  color: string,
+  userId: number | null | undefined
 ) => {
-  socket.emit("sendMessage", { message, username, color });
+  socket.emit("sendMessage", { message, username, color, userId });
 };
 
 const saveMessage = (messageFunction: Function) => {

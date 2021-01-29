@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import { ErrorProvider } from "../context/Error";
 
@@ -13,6 +13,7 @@ const AuthRoutes: React.FC = () => {
       <ErrorProvider>
         <Route path="/" component={SignIn} exact />
         <Route path="/signup" component={SignUp} />
+        <Redirect to="/" />
       </ErrorProvider>
     </Switch>
   );

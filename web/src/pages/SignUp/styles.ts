@@ -22,9 +22,11 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  width: 20rem;
 `;
 export const AvatarContent = styled.div`
   align-self: flex-end;
+  margin-right: 1rem;
 
   input {
     width: 0.1px;
@@ -61,9 +63,8 @@ export const Button = styled.button`
 
   border-radius: 0.8rem;
   padding: 0.8rem;
-  width: 20rem;
-  max-width: 37.1rem;
-  min-width: 10.5rem;
+  width: 100%;
+  max-width: 19.188rem;
   margin: 0.4rem 0rem;
 
   background: #7858f9;

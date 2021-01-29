@@ -10,6 +10,7 @@ import userController from "./controllers/UserController";
 import messageController from "./controllers/MessageController";
 import groupController from "./controllers/GroupController";
 import groupRecipientController from "./controllers/GroupRecipientController";
+import recentChat from "./controllers/RecentChat";
 
 import middlewareJwt from "./middlewares/checkJwt";
 
@@ -72,5 +73,10 @@ routes.put(
   groupController.update
 );
 routes.delete("/groups/:id", middlewareJwt.checkJwt, groupController.delete);
+
+// Test recent message
+routes.get("/recent", middlewareJwt.checkJwt, recentChat.index);
+routes.get("/recent/:id", middlewareJwt.checkJwt, recentChat.show);
+routes.post("/recent", middlewareJwt.checkJwt, recentChat.create);
 
 export default routes;

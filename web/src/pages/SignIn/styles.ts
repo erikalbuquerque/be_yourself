@@ -16,13 +16,13 @@ export const Title = styled.h1`
   font-weight: bold;
 `;
 export const Form = styled.form`
+  width: 20rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 export const Forgot = styled.div`
   align-self: flex-end;
+  margin-right: 1rem;
   a {
     text-decoration: none;
     color: #e0e0e0;
@@ -42,9 +42,8 @@ export const Button = styled.button`
 
   border-radius: 0.8rem;
   padding: 0.8rem;
-  width: 20rem;
-  max-width: 37.1rem;
-  min-width: 10.5rem;
+  width: 100%;
+  max-width: 19.188rem;
   margin: 0.8rem 0rem;
 
   background: #7858f9;

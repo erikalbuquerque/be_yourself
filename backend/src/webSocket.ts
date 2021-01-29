@@ -15,11 +15,15 @@ const setupWebSocket = (server: Server) => {
     //const username: string = socket.handshake.query.username;
     //io.to(socket.id).emit("welcome", "Conquista Desbloqueada: Nova União");
 
-    socket.on("join", (data: IJoin) => {
-      io.to(socket.id).emit(data.room, `${data.userId} joined in the ${data.room}`)
-      socket.broadcast.emit(data.room, `${data.userId} joined in the ${data.room}`);
+    socket.on("join", (username: string) => {
+      io.to(socket.id).emit("global", `${username} joined in the global`)
+      socket.broadcast.emit("global", `${username} joined in the global`);
 
-      console.log(`${data.userId} joined in the ${data.room}`)
+      console.log(`${username} joined in the global`)
+
+      socket.on("disconnect", () => {
+        console.log(`${username} has left global`);
+      })
     })
 
     socket.on("sendMessage", (data: {}) => {

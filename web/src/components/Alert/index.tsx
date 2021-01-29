@@ -1,4 +1,4 @@
-import React, { useEffect, useState, InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
 import { useError } from "../../context/Error";

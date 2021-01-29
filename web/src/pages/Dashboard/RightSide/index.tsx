@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 import {
   Content,
   Explorer,
   Explorer_Header,
   RSHeaderIcons,
+  RSGlobalChat,
+  RSGlobalTitle,
   RSIcon,
   RSBody,
   RSListGroups,
@@ -41,6 +43,10 @@ import iconLoading from "../../../assets/loading.svg";
 import { MdAdd } from "react-icons/md";
 
 import api from "../../../services/api";
+import { useAuth } from "../../../context/Auth";
+
+import { joinInTheChannel, connect } from "../../../services/socketIo";
+import { useChat } from "../../../context/InfosChat";
 
 interface IGroup {
   id: number;
@@ -53,10 +59,11 @@ interface IGroup {
 }
 
 const RightSide: React.FC = () => {
+  const { user } = useAuth();
+
+  const { showContent, setShowContent } = useChat();
 
   const [showAddDisplay, setShowAddDisplay] = useState(false);
-
-  
 
   const [groups, setGroups] = useState([]);
   const [total, setTotal] = useState(0);
@@ -64,6 +71,12 @@ const RightSide: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const [skip, setSkip] = useState(0);
+
+  function handleGlobalChat() {
+    connect();
+    joinInTheChannel(user?.name);
+    setShowContent(true);
+  }
 
   useEffect(() => {
     async function loadGroupos() {
@@ -112,7 +125,16 @@ const RightSide: React.FC = () => {
       <Explorer>
         <Explorer_Header>
           <RSHeaderIcons>
-            <RSIcon src={iconCompass} />
+            <RSGlobalChat show={showContent} onClick={handleGlobalChat}>
+              {showContent ? (
+                <RSIcon src={iconCompass} />
+              ) : (
+                <Fragment>
+                  <RSIcon src={iconCompass} />
+                  <RSGlobalTitle>Global Chat</RSGlobalTitle>
+                </Fragment>
+              )}
+            </RSGlobalChat>
             <RSAddGroup onClick={() => setShowAddDisplay(true)}>
               <MdAdd size={30} color="#e0e0e0" />
             </RSAddGroup>

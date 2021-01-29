@@ -5,22 +5,24 @@ interface ITexts {
   size: string;
 }
 
-export const Content = styled(FlexColumn)`
+export const Content = styled.div`
   img {
     object-fit: cover;
   }
   grid-area: leftSide;
   width: 100%;
 
+  ${FlexColumn}
   align-items: center;
 `;
-export const LSRecents = styled(FlexColumn)`
+export const LSRecents = styled.div`
   border-radius: 1.25rem;
   min-width: 20rem;
   height: 23rem;
 
   background: rgba(196, 196, 196, 0.04);
 
+  ${FlexColumn}
   align-items: center;
   justify-content: space-around;
 
@@ -40,18 +42,24 @@ export const LSRecentList = styled.div`
   max-height: 20rem;
   overflow-y: auto;
 
-  display: flex;
-  flex-direction: column;
+  ${FlexColumn}
 `;
-export const LSListItem = styled(FlexRow)`
+export const LSNoContant = styled.span`
+  font-size: 1rem;
+  color: #adadb8;
+  align-self: center;
+  margin-top: 6.5rem;
+`;
+export const LSListItem = styled.div`
   transition: background 0.2s;
-  background: rgb(41, 41, 46) ;
+  background: rgb(41, 41, 46);
 
   cursor: pointer;
   padding: 0.4rem;
   border-radius: 1.25rem;
   margin: 0.1rem 0.5rem;
 
+  ${FlexRow}
   align-items: flex-end;
   justify-content: space-between;
 
@@ -66,7 +74,8 @@ export const LSImg = styled.img`
   margin-left: 0.1rem;
   border-radius: 50%;
 `;
-export const LSTexts = styled(FlexColumn)`
+export const LSTexts = styled.div`
+  ${FlexColumn}
   flex: 1 1 50%;
 `;
 export const LSName = styled.span`
@@ -78,7 +87,8 @@ export const LSRecentMessage = styled.span`
   font-size: 0.875rem;
   color: #efeff1;
 `;
-export const LSOptions = styled(FlexColumn)`
+export const LSOptions = styled.div`
+  ${FlexColumn}
   align-items: flex-end;
 
   margin-right: 0.5rem;
@@ -115,7 +125,8 @@ export const LSMore = styled.img`
     opacity: 0.8;
   }
 `;
-export const LSGroupInfo = styled(FlexColumn)`
+export const LSGroupInfo = styled.div`
+  ${FlexColumn}
   margin-top: 1rem;
   width: 17.688rem;
   height: 8.375rem;
@@ -124,11 +135,14 @@ export const LSGroupInfo = styled(FlexColumn)`
 
   background: rgba(70, 70, 73, 0.5);
 `;
-export const LSGHeader = styled(FlexRow)`
+export const LSGHeader = styled.div`
+  ${FlexRow}
   align-items: center;
   justify-content: space-between;
 `;
-export const LSGTexts = styled(FlexColumn)``;
+export const LSGTexts = styled.div`
+  ${FlexColumn}
+`;
 
 export const LSGTitle = styled.h1<ITexts>`
   color: #e0e0e0;
@@ -141,12 +155,14 @@ export const LSGDescription = styled(LSGTitle)`
 export const LSGMore = styled.img`
   cursor: pointer;
 `;
-export const LSGBody = styled(FlexRow)`
+export const LSGBody = styled.div`
+  ${FlexRow}
   justify-content: space-between;
 
   margin-top: 1.5rem;
 `;
-export const LSGUserList = styled(FlexRow)`
+export const LSGUserList = styled.div`
+  ${FlexRow}
   position: relative;
 `;
 export const LSGUserItem = styled.div`
@@ -167,7 +183,7 @@ export const LSGCount = styled.div`
   right: -0.5rem;
   bottom: 0.8rem;
 
-  display: flex;
+  ${FlexRow};
   justify-content: center;
   align-items: center;
 

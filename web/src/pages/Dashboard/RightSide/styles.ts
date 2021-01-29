@@ -1,9 +1,17 @@
 import styled from "styled-components";
 
-import { FlexColumn, FlexRow } from "../../../assets/styles/globalStyles";
+import {
+  FlexColumn,
+  FlexRow,
+  HoverBackgroundEffect,
+} from "../../../assets/styles/globalStyles";
 
 interface IRSIcon {
   size?: string;
+}
+
+interface IGlobalChat {
+  show: boolean;
 }
 
 interface IIndicator {
@@ -33,61 +41,78 @@ export const RSIndicator = styled.div<IIndicator>`
   right: ${(props) => props.right};
   background: ${(props) => props.color};
 `;
-export const Explorer = styled(FlexColumn)`
+export const Explorer = styled.div`
   background: rgba(196, 196, 196, 0.04);
   /* width: 17rem;
    */
+  ${FlexColumn}
   align-items: center;
 
   height: 32.375rem;
   padding: 2rem 1rem;
   border-radius: 1.25rem;
 `;
-export const Explorer_Header = styled(FlexColumn)`
+export const Explorer_Header = styled.div`
   width: 100%;
+  ${FlexColumn}
 `;
-export const RSHeaderIcons = styled(FlexRow)`
+export const RSHeaderIcons = styled.div`
+  ${FlexRow}
   justify-content: space-between;
 
   margin-bottom: 1.5rem;
+`;
+
+export const RSGlobalChat = styled.div<IGlobalChat>`
+  ${FlexRow}
+  align-items: center;
+  cursor: pointer;
+
+  padding: 0.5rem;
+  border-radius: 1rem;
+
+  background: transparent;
+  transition: background 0.2s;
+  ${(props) => !props.show && ":hover { background: #464649;}"};
+`;
+export const RSGlobalTitle = styled.span`
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-left: 0.5rem;
 `;
 export const RSIcon = styled.img<IRSIcon>`
   width: ${(props) => props.size || "1.5rem"};
   height: ${(props) => props.size || "1.5rem"};
 `;
 
-export const RSBody = styled(FlexColumn)`
+export const RSBody = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 1rem;
-  
+
+  ${FlexColumn}
   justify-content: space-between;
   align-items: center;
 `;
-export const RSListGroups = styled(FlexColumn)`
+export const RSListGroups = styled.div`
   width: 100%;
   height: 100%;
- 
+
+  ${FlexColumn}
   align-items: center;
 
   max-height: 22rem;
   overflow-y: auto;
 `;
-export const RSAddGroup = styled(FlexRow)`
-  cursor: pointer;
+export const RSAddGroup = styled.div`
   height: 1.563rem;
-  padding: 0.4rem;
-  border-radius: 0.4rem;
   width: 2rem;
 
+  ${FlexRow}
   justify-content: center;
   align-items: center;
 
-  background: transparent;
-  transition: background 0.2s;
-  :hover {
-    background: #464649;
-  }
+  ${HoverBackgroundEffect}
 `;
 export const SplashError = styled.img``;
 export const RSMore = styled.img`
@@ -99,13 +124,14 @@ export const RSMore = styled.img`
     opacity: 0.8;
   }
 `;
-export const RSItem = styled(FlexColumn)`
+export const RSItem = styled.div`
   width: 100%;
   border-radius: 0.313rem;
   height: 7.813rem;
   margin-top: 0.5rem;
   cursor: pointer;
-  
+
+  ${FlexColumn}
   justify-content: flex-start;
   align-items: center;
 
@@ -115,7 +141,8 @@ export const RSItem = styled(FlexColumn)`
     background: #1b1b1b;
   }
 `;
-export const RSItemHeader = styled(FlexColumn)`
+export const RSItemHeader = styled.div`
+  ${FlexColumn}
   width: 100%;
   position: relative;
 `;
@@ -139,8 +166,7 @@ export const RSItemBody = styled.div`
   padding: 0.5rem;
   width: 100%;
 
-  display: flex;
-  flex-direction: row;
+  ${FlexRow}
 `;
 export const RSItemBodyHeader = styled.div`
   flex: 1 1 60%;
@@ -156,13 +182,15 @@ export const RSDescription = styled.span`
   font-size: 0.75rem;
   width: 9.5rem;
 `;
-export const RSInfo = styled(FlexColumn)`
+export const RSInfo = styled.div`
+  ${FlexColumn}
   align-items: flex-start;
   justify-content: center;
   align-self: flex-end;
   flex: 1 1 40%;
 `;
-export const RSMember = styled(FlexRow)`
+export const RSMember = styled.div`
+  ${FlexRow}
   justify-content: center;
   align-items: center;
 `;
@@ -171,11 +199,11 @@ export const RSSpan = styled.span`
   font-size: 0.75rem;
   color: #adadb8;
 `;
-export const RSOnline = styled(FlexRow)`
+export const RSOnline = styled.div`
+  ${FlexRow}
   justify-content: center;
   align-items: center;
 `;
-
 
 /* ADD NEW GROUP*/
 export const RSAddNewGroup = styled.div`

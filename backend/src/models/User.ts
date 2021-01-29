@@ -9,12 +9,13 @@ import {
   CreateDateColumn,
   ManyToMany,
   OneToMany,
-  JoinColumn
+  JoinColumn,
 } from "typeorm";
 import bcrypt from "bcrypt";
 
 import Message from "./Message";
 import GroupRecipient from "./GroupRecipient";
+import RecentChat from "./RecentChat";
 
 @Entity("users")
 export default class User {
@@ -56,9 +57,13 @@ export default class User {
   @JoinColumn({ name: "user_id" })
   groupRecipient: GroupRecipient;
 
+  @ManyToMany(() => RecentChat, (recentChat) => recentChat.user)
+  @JoinColumn({ name: "user_id" })
+  recentChat: RecentChat;
+
   @CreateDateColumn()
-  public created_at: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  public updated_at: Date;
+  updated_at: Date;
 }

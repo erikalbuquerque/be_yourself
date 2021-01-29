@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
 const globalStyles = createGlobalStyle`
     * {
@@ -44,13 +44,25 @@ const globalStyles = createGlobalStyle`
     }
 `;
 
-export const FlexRow = styled.div`
+export const FlexRow = css`
   display: flex;
   flex-direction: row;
 `;
-export const FlexColumn = styled.div`
+export const FlexColumn = css`
   display: flex;
   flex-direction: column;
+`;
+
+export const HoverBackgroundEffect = css`
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+
+  background: transparent;
+  transition: background 0.2s;
+  :hover {
+    background: #464649;
+  }
 `;
 
 export default globalStyles;

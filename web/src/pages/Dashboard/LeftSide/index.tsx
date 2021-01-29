@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Content,
   LSRecents,
   LSTitle,
   LSRecentList,
+  LSNoContant,
   LSListItem,
   LSImg,
   LSTexts,
@@ -34,34 +35,74 @@ import iconDots from "../../../assets/optionsDots.svg";
 import iconLoading from "../../../assets/loading.svg";
 import iconInfo from "../../../assets/info.svg";
 
+import api from "../../../services/api";
+import { useAuth } from "../../../context/Auth";
+
 const LeftSide: React.FC = () => {
+  const { user } = useAuth();
   const [isMessage, setIsMessage] = useState(false);
+
+  const [recentChats, setRecentChats] = useState<object[]>([]);
+  const [loadingChats, setLoadingChats] = useState(true);
+
+  useEffect(() => {
+    (async function loadRecentChats() {
+      await api
+        .get(`/recent/${user?.id}`)
+        .then((response) => {
+          if (response.data.length > 0) {
+            setRecentChats([...recentChats, response.data]);
+            setLoadingChats(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoadingChats(false);
+        });
+    })();
+  }, [loadingChats]);
   return (
     <Content>
       <LSRecents>
         <SearchInput label="Search" />
         <LSTitle>Recents chats</LSTitle>
         <LSRecentList>
-          {[1, 2, 3, 4].map((item, index) => (
-            <LSListItem key={index}>
-              <LSImg src="https://i.pinimg.com/originals/b0/48/d3/b048d3b08bcbd8d49ec26754289d665c.jpg" />
-              <LSTexts>
-                <LSName color="#9E472B">nonsense</LSName>
-                <LSRecentMessage>carai de asa</LSRecentMessage>
-              </LSTexts>
+          {recentChats.map((item: any, index: number) =>
+            console.log(
+              `fora: ${recentChats.length > 0} : ${recentChats.length}`
+            )
+          )}
+          {recentChats.length > 0 ? (
+            recentChats.map((item: any, index: number) => (
+              <LSListItem
+                key={index}
+                onClick={() => console.log(item[index].recipient_id)}
+              >
+                <LSImg
+                  src={`http://localhost:3333/uploads/${item[index].recipient_avatar}`}
+                />
+                <LSTexts>
+                  <LSName color="#2b8d9e">
+                    {item[index].recipient_username}
+                  </LSName>
+                  <LSRecentMessage>asdasdas</LSRecentMessage>
+                </LSTexts>
 
-              <LSOptions>
-                <LSMoreOptions src={iconDots} />
-                {isMessage ? (
-                  <LSMessageCount>7</LSMessageCount>
-                ) : (
-                  <LSTime>04 min</LSTime>
-                )}
-              </LSOptions>
-            </LSListItem>
-          ))}
+                <LSOptions>
+                  <LSMoreOptions src={iconDots} />
+                  {isMessage ? (
+                    <LSMessageCount>7</LSMessageCount>
+                  ) : (
+                    <LSTime>04 min</LSTime>
+                  )}
+                </LSOptions>
+              </LSListItem>
+            ))
+          ) : (
+            <LSNoContant>No chats yet</LSNoContant>
+          )}
         </LSRecentList>
-        <LSMore src={iconLoading} />
+        {recentChats.length > 0 && <LSMore src={iconLoading} />}
       </LSRecents>
 
       <LSGroupInfo>
