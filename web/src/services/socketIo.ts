@@ -7,11 +7,14 @@ const stop = () => {
 };
 
 const subscribeInTheGlobalChat = (subscribeFunction: Function) => {
-  socket.on("global", subscribeFunction);
+  socket.on("join", subscribeFunction);
 };
 
-const joinInTheChannel = (username: string | null | undefined) => {
-  socket.emit("join", username);
+const joinInTheChannel = (
+  room: string,
+  username: string | null | undefined
+) => {
+  socket.emit(room, username);
 };
 
 const sendMessage = (

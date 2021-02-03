@@ -51,9 +51,10 @@ import {
   subscribeInTheGlobalChat,
   stop,
 } from "../../services/socketIo";
-import { InfoChatProvider } from "../../context/InfosChat";
+import { InforChatProvider, useChat } from "../../context/InforChat";
 
 interface IJoin {
+  room: string;
   username: string;
 }
 
@@ -80,17 +81,18 @@ const Dashboard: React.FC = () => {
   }
 
   useEffect(() => {
+    if (!signed) {
+      disconnect();
+    }
     connect();
-    joinInTheChannel(user?.name);
-  }, []);
-
-  useEffect(() => {
+    joinInTheChannel("global", user?.name);
     subscribeInTheGlobalChat((data: IJoin) => data);
+
     return () => stop();
-  }, []);
+  }, [signed]);
 
   return (
-    <InfoChatProvider>
+    <InforChatProvider>
       <Container>
         <Header path="/dashboard">
           <RSUserPanel>
@@ -182,7 +184,7 @@ const Dashboard: React.FC = () => {
           <RightSide />
         </Content>
       </Container>
-    </InfoChatProvider>
+    </InforChatProvider>
   );
 };
 

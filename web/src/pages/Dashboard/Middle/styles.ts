@@ -78,17 +78,24 @@ export const MMessages = styled.div`
 
 export const MCardUser = styled.div`
   ${FlexColumn};
+  background: #18181b;
 
   padding: 0.5rem;
+  width: 13rem;
   border-radius: 0.5rem;
 
-  z-index: 2;
+  z-index: 99;
   position: absolute;
 `;
 export const MCardHeader = styled.div`
   ${FlexRow}
   align-items: center;
   justify-content: space-around;
+
+  svg {
+    ${HoverBackgroundEffect}
+    padding: 0rem;
+  }
 `;
 export const MCardAvatar = styled.img`
   background: #0d0d0d;
@@ -105,11 +112,15 @@ export const MCardUserName = styled.span`
 
 export const MWhisper = styled.div`
   ${FlexRow}
+  align-items: center;
+  justify-content: center;
   ${HoverBackgroundEffect}
   :hover {
     background: #522af4;
   }
   background: #7858f9;
+
+  margin-top: 1rem;
 `;
 export const MWhisperTitle = styled.span`
   margin-left: 0.5rem;

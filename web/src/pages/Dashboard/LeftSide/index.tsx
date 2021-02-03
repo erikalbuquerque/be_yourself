@@ -37,47 +37,45 @@ import iconInfo from "../../../assets/info.svg";
 
 import api from "../../../services/api";
 import { useAuth } from "../../../context/Auth";
+import { useChat } from "../../../context/InforChat";
+import { connect, disconnect } from "../../../services/socketIo";
 
 const LeftSide: React.FC = () => {
   const { user } = useAuth();
+  const { setShowContent } = useChat();
   const [isMessage, setIsMessage] = useState(false);
 
   const [recentChats, setRecentChats] = useState<object[]>([]);
-  const [loadingChats, setLoadingChats] = useState(true);
+  const [loadChats, setLoadChats] = useState(true);
 
   useEffect(() => {
     (async function loadRecentChats() {
-      await api
-        .get(`/recent/${user?.id}`)
-        .then((response) => {
-          if (response.data.length > 0) {
-            setRecentChats([...recentChats, response.data]);
-            setLoadingChats(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoadingChats(false);
-        });
+      try {
+        const response = await api.get(`/recent/${user?.id}`);
+        if (response.data.length > 0) {
+          setRecentChats([...recentChats, response.data]);
+        }
+        setLoadChats(false);
+      } catch (error) {
+        console.log(error);
+        setLoadChats(false);
+      }
     })();
-  }, [loadingChats]);
+  }, [loadChats]);
+
+  function handleOpenPrivateChat() {
+    disconnect();
+    setShowContent(false);
+  }
   return (
     <Content>
       <LSRecents>
         <SearchInput label="Search" />
         <LSTitle>Recents chats</LSTitle>
         <LSRecentList>
-          {recentChats.map((item: any, index: number) =>
-            console.log(
-              `fora: ${recentChats.length > 0} : ${recentChats.length}`
-            )
-          )}
           {recentChats.length > 0 ? (
             recentChats.map((item: any, index: number) => (
-              <LSListItem
-                key={index}
-                onClick={() => console.log(item[index].recipient_id)}
-              >
+              <LSListItem key={index} onClick={handleOpenPrivateChat}>
                 <LSImg
                   src={`http://localhost:3333/uploads/${item[index].recipient_avatar}`}
                 />
@@ -85,7 +83,7 @@ const LeftSide: React.FC = () => {
                   <LSName color="#2b8d9e">
                     {item[index].recipient_username}
                   </LSName>
-                  <LSRecentMessage>asdasdas</LSRecentMessage>
+                  <LSRecentMessage>asdasd</LSRecentMessage>
                 </LSTexts>
 
                 <LSOptions>

@@ -46,7 +46,7 @@ import api from "../../../services/api";
 import { useAuth } from "../../../context/Auth";
 
 import { joinInTheChannel, connect } from "../../../services/socketIo";
-import { useChat } from "../../../context/InfosChat";
+import { useChat } from "../../../context/InforChat";
 
 interface IGroup {
   id: number;
@@ -74,7 +74,7 @@ const RightSide: React.FC = () => {
 
   function handleGlobalChat() {
     connect();
-    joinInTheChannel(user?.name);
+    joinInTheChannel("global", user?.name);
     setShowContent(true);
   }
 

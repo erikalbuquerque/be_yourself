@@ -27,6 +27,10 @@ import {
   MEContainerEmoji,
   MEmoji,
 } from "./styles";
+
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 import SearchInput from "../../../components/SearchInput";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import iconInfo from "../../../assets/info.svg";
@@ -43,7 +47,7 @@ import {
   disconnect,
   stop,
 } from "../../../services/socketIo";
-import { useChat } from "../../../context/InfosChat";
+import { useChat } from "../../../context/InforChat";
 import api from "../../../services/api";
 
 const COLORS = [
@@ -84,6 +88,7 @@ const Middle: React.FC = () => {
   const [usernameColor, setUsernameColor] = useState("");
 
   const [userRecipient, setUserRecipient] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const username = user?.name;
   const userId = user?.id;
@@ -125,10 +130,7 @@ const Middle: React.FC = () => {
     }
   }, [messages]);
 
-  async function handlePrivateChat(
-    user_id: number | null | undefined,
-    recipient_id: number
-  ) {
+  async function handleUser(recipient_id: number) {
     try {
       const result = await api.get(`users/${recipient_id}`);
       if (result.data !== null || result.data !== undefined) {
@@ -137,16 +139,20 @@ const Middle: React.FC = () => {
     } catch (error) {
       console.log(error.errors);
     }
-    // try {
-    //   await api.post("recent", {
-    //     user_id,
-    //     recipient_id,
-    //   });
-    // } catch (error) {
-    //   console.log(error.errors);
-    // }
     setShowWhisper(true);
-    console.log({ user_id, recipient_id });
+  }
+  async function handleWhisper(
+    user_id: number | null | undefined,
+    recipient_id: number | undefined
+  ) {
+    try {
+      setLoading(true);
+      await api.post("recent", { user_id, recipient_id });
+      setLoading(false);
+    } catch (error) {
+      console.log(error.errors);
+      setLoading(false);
+    }
   }
 
   return (
@@ -172,19 +178,34 @@ const Middle: React.FC = () => {
                       {userRecipient !== null && userRecipient.name}
                     </MCardUserName>
                   </MCardTexts>
+                  <RiCloseLine
+                    size={20}
+                    color="#e0e0e0"
+                    onClick={() => setShowWhisper(false)}
+                  />
                 </MCardHeader>
-                <MWhisper>
-                  <BiMessageAlt color="#e0e0e0" size={20} />
-                  <MWhisperTitle>Whisper</MWhisperTitle>
+                <MWhisper
+                  onClick={() => handleWhisper(userId, userRecipient?.id)}
+                >
+                  {loading ? (
+                    <Loader
+                      type="ThreeDots"
+                      color="#e0e0e0"
+                      height={10}
+                      width={40}
+                    />
+                  ) : (
+                    <>
+                      <BiMessageAlt color="#e0e0e0" size={20} />
+                      <MWhisperTitle>Whisper</MWhisperTitle>
+                    </>
+                  )}
                 </MWhisper>
               </MCardUser>
             )}
             <MMessages className="ref">
               {messages.map((item: any, index) => (
-                <MItem
-                  key={index}
-                  onClick={() => handlePrivateChat(userId, item.userId)}
-                >
+                <MItem key={index} onClick={() => handleUser(item.userId)}>
                   <MUserName color={item.color}>{item.username}</MUserName>
                   <MTwoDots>:</MTwoDots>
                   <MUserMessage>{item.message}</MUserMessage>
